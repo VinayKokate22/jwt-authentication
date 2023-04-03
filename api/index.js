@@ -11,7 +11,7 @@ const user = [
     username: "vinay",
     password: "12345",
     email: "vinay@123",
-    isAdmin: false,
+    isAdmin: true,
   },
   {
     id: 2,
@@ -40,7 +40,6 @@ const verify = async (req, res, next) => {
   }
 };
 app.use(cors());
-
 app.use(express.json());
 app.post("/api/refresh", async (req, res) => {
   //take the refresh token
@@ -94,7 +93,7 @@ app.post("/api/logout", verify, async (req, res) => {
 });
 app.post("/api/login", async (req, res) => {
   const { username, password } = await req.body;
-  if ((username, password)) {
+  if (username && password) {
     if (
       user.find((u) => {
         return u.username === username;
@@ -122,6 +121,7 @@ app.post("/api/login", async (req, res) => {
       res.json({
         id: loggeduser.id,
         username: loggeduser.username,
+        isAdmin: loggeduser.isAdmin,
         accesstoken,
         refreshtoken,
       });
